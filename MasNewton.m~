@@ -38,6 +38,23 @@ for i = grado +1:-1:1;
         end
     end
 end
+for i = grado +1:-1:1;
+    if polinomio(i) == 0;
+        stringpoli = strcat(stringpoli);    
+    elseif polinomio(i) < 0;
+        if i==1;
+            stringpoli = strcat(stringpoli,num2str(polinomio(i)));
+        else;
+            stringpoli = strcat(stringpoli,num2str(polinomio(i)),'*x^',num2str(i-1));
+        end
+    else;
+        if i==1;
+            stringpoli = strcat(stringpoli,'+',num2str(polinomio(i)));
+        else
+            stringpoli = strcat(stringpoli,'+',num2str(polinomio(i)),'*x^',num2str(i-1));
+        end
+    end
+end
 
 disp('<--POLINOMIO INGRESADO-->');
 disp(stringpoli);
@@ -130,7 +147,7 @@ if input('Ingrese la opción a usar: N (Método de Newton) o B (Método de Bisec
     %veo donde hay una raiz
     for i=2:length(coorx);
         if coory(i)*coory(i-1) < 0;
-            x0 = coorx(i-1);
+            x0 = coorx(i);
             x1 = 1 ;
             Fx0 = 1;
             while abs(Fx0) > error;
@@ -147,19 +164,23 @@ if input('Ingrese la opción a usar: N (Método de Newton) o B (Método de Bisec
                 for i = 1:length(polinomio);
                     Fx0 = Fx0 + polinomio(i)*(x0)^(i-1) ;
                 end
+                fprintf('Fx0 = %f , x0 = %f\n',Fx0,x1);
                 x0 = x1;
             end
             %Contador de iguales para no usar lo mismo
             contiguales = 0;
             for i = 1:numeroraices;
+                fprintf('x1 = %f , \t raices(i) = %f\n',x1,raices(i))
                 if x1 == raices(i)
+                    disp('Sumo');
                     contiguales = contiguales + 1;                   
                 end
             end
-            if contiguales == 0
+            if contiguales == 0;
                 numeroraices = numeroraices +1;
                 raices(numeroraices) = x1;
             end
+            disp(raices);
         end
     end
         
