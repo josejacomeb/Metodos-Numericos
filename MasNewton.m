@@ -341,3 +341,4 @@ ingresaiteraciones = input('Ingrese el Numero de iteraciones a realizar: ');
         fprintf('Raiz Mediante el Metodo de %s encontrada en x  = %f \n',metodo,raices(i));
     end
 end 
+dip('Examen del martes en 8: ');
