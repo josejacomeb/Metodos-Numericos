@@ -1,6 +1,6 @@
 %Raices de Polinomio mas metodo de Newton
 clc;
-clear;
+%%%AUTOR: JOSÉ JÁCOME%%%
 disp('<~~~Integración Por Regla Trapecio y Simpson~~~>');
 %Pide el grado del polinomio
 grado=input('Ingrese el grado del polinomio: ');
@@ -188,9 +188,8 @@ while mod(ndivisiones,2) > 0;
     ndivisiones = input(';Ingrese un numero de divisiones para continuar: ');
 end
 %Metodo del trapecio
-disp('Metodo del Trapecio');
+disp('###Metodo del Trapecio###');
 xn = ini;
-fxn = [];
 %variable area negativa
 anegativa = 0;
 %variable area positiva 
@@ -199,27 +198,23 @@ apositiva = 0;
 atotal  = 0;
 for i = 2:length(intervalo);
     contador = 1;
-    acumulador = 0;
     h = (intervalo(i) - intervalo(i-1))/ndivisiones;
+    acumuladormetodo = 0;
     for j = intervalo(i-1):h:intervalo(i);
         %variable acumuladora del metodo
-        acumuladormetodo = 0;
+        acumulador = 0;
         for i = 0:length(polinomio)-1;
            acumulador = acumulador + polinomio(i+1)*(j)^(i);      
         end
         if contador == 1;
-            acumulador=acumulador;
-        elseif h == intervalo(i);
-            acumulador=acumulador;
+            acumuladormetodo=acumuladormetodo + acumulador;
+        elseif contador == ndivisiones +1;
+            acumuladormetodo=acumuladormetodo + acumulador;
         else
-            acumulador = 2*acumulador;
+            acumuladormetodo = acumuladormetodo + 2*acumulador;
         end
-        acumuladormetodo = acumuladormetodo  + acumulador;
-        fprintf('acumuluador  %f , acumuladormetodo %f\n',acumulador, acumuladormetodo);
-        acumulador = 0;
         contador = contador + 1;
     end
-    disp(acumuladormetodo);
     f1xdx = acumuladormetodo * h/2;
     if f1xdx < 0;
         anegativa = anegativa + f1xdx;
@@ -229,23 +224,47 @@ for i = 2:length(intervalo);
 end
 fprintf('La integral por método de Trapecio Positiva es: %f\n',apositiva);
 fprintf('La integral por método de Trapecio Negativa es: %f\n',anegativa);
-fprintf('La integral calculada fue: %f \n',anegativa + apositiva);
+fprintf('La integral calculada por el Método del Trapecio fue: %f \n',anegativa + apositiva);
 %Codigo de Regla de Simpson
-disp('Metodo de Simpson');        disp(acumulador);
-acumulador = 0;
-for i = 1:length(fxn);
-    if i == 1;
-        acumulador = acumulador + fxn(i);
-    elseif i == length(fxn);
-        acumulador = acumulador + fxn(i);
-    else
-        if mod(i,2) == 0;
-            acumulador = acumulador + 4 * fxn(i);
-        else
-            acumulador = acumulador + 2 * fxn(i);
+disp('%%%Metodo de Simpson%%%');
+%variable area negativa
+anegativa = 0;
+%variable area positiva 
+apositiva = 0;
+%area total
+atotal  = 0;
+for i = 2:length(intervalo);
+    contador = 1;
+    h = (intervalo(i) - intervalo(i-1))/ndivisiones;
+    acumuladormetodo = 0;
+    for j = intervalo(i-1):h:intervalo(i);
+        %variable acumuladora del metodo
+        acumulador = 0;
+        for i = 0:length(polinomio)-1;
+           acumulador = acumulador + polinomio(i+1)*(j)^(i);      
         end
+        if contador == 1;
+            acumuladormetodo=acumuladormetodo + acumulador;
+        elseif contador == ndivisiones +1;
+            acumuladormetodo=acumuladormetodo + acumulador;
+        else
+	    if mod(contador,2) == 0;
+            	acumuladormetodo = acumuladormetodo + 4*acumulador;
+	    else
+	        acumuladormetodo = acumuladormetodo + 2*acumulador;
+            end        
+	end
+        contador = contador + 1;
+    end
+    f2xdx = acumuladormetodo * h/3;
+    if f2xdx < 0;
+        anegativa = anegativa + f2xdx;
+    else
+        apositiva = apositiva + f2xdx;
     end
 end
-f2xdx = acumulador*h/3;
-fprintf('La integral calculada fue: %f \n',f2xdx);
+fprintf('La integral por método de Simpson Positiva es: %f\n',apositiva);
+fprintf('La integral por método de Simpson Negativa es: %f\n',anegativa);
+fprintf('La integral calculada por el Método del Simpson fue: %f \n',anegativa + apositiva);
+
 
