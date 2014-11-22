@@ -147,18 +147,33 @@ fprintf('Numero de Raices encontradas en el intervalo [%.2f,%.2f] = %d\n',ini,fi
 %Display de Integrales
 stringintegral = strcat('int(',stringpoli,')[',num2str(fin),' , ',num2str(ini),']dx' ,' = ');
 auxraiz = 0;
+intervalo = [];
  if length(raices) == 1;
+        intervalo = [ini,raices(1),fin];
         stringintegral = strcat(stringintegral,' Integral [',num2str(ini),',',num2str(raices(1)),']dx',' + ',' Integral [',num2str(raices(1)),',',num2str(fin),']dx');
  elseif length(raices) == 0;
+     intervalo = [ini,fin];
      stringintegral = strcat(stringintegral,' Integral [',num2str(ini),',',num2str(fin),']dx');
  else
+    contintervalo = 1;
     for i = 0:length(raices);
         if i == 0;
-            stringintegral = strcat(stringintegral,' Integral [',num2str(ini),',',num2str(raices(i+1)),']dx',' + '); 
+            stringintegral = strcat(stringintegral,' Integral [',num2str(ini),',',num2str(raices(i+1)),']dx',' + ');
+            intervalo(contintervalo) = ini;
+            contintervalo = contintervalo + 1;
+            intervalo(contintervalo) = raices(i+1);
+            contintervalo = contintervalo + 1;
             auxraiz = raices(i+1);
         elseif i == length(raices);
+            intervalo(contintervalo) =raices(i) ;
+            contintervalo = contintervalo +1;
+            intervalo(contintervalo) = fin;
             stringintegral = strcat(stringintegral,' Integral [',num2str(raices(i)),',',num2str(fin),']dx'); 
+            contintervalo = contintervalo + 1;
         else 
+            intervalo(contintervalo) = auxraiz;
+            contintervalo = contintervalo + 1;
+            intervalo(contintervalo) = raices(i+1);
             stringintegral = strcat(stringintegral,' Integral [',num2str(auxraiz),',',num2str(raices(i+1)),']dx + ');
             auxraiz = raices(i+1);
         end
@@ -170,38 +185,53 @@ disp(stringintegral);
 %Inicio de los metodos
 ndivisiones = input('Ingrese el numero de divisiones a efectuar la funcion: ');
 while mod(ndivisiones,2) > 0;
-    ndivisiones = input('Ingrese un numero de divisiones para continuar: ');
+    ndivisiones = input(';Ingrese un numero de divisiones para continuar: ');
 end
 %Metodo del trapecio
 disp('Metodo del Trapecio');
-h = (fin - ini)/ndivisiones;
 xn = ini;
 fxn = [];
-contador = 1;
-while fin+h >= xn;
+%variable area negativa
+anegativa = 0;
+%variable area positiva 
+apositiva = 0;
+%area total
+atotal  = 0;
+for i = 2:length(intervalo);
+    contador = 1;
     acumulador = 0;
-    for i = 0:length(polinomio)-1;
-       acumulador = acumulador + polinomio(i+1)*(xn)^(i);        
+    h = (intervalo(i) - intervalo(i-1))/ndivisiones;
+    for j = intervalo(i-1):h:intervalo(i);
+        %variable acumuladora del metodo
+        acumuladormetodo = 0;
+        for i = 0:length(polinomio)-1;
+           acumulador = acumulador + polinomio(i+1)*(j)^(i);      
+        end
+        if contador == 1;
+            acumulador=acumulador;
+        elseif h == intervalo(i);
+            acumulador=acumulador;
+        else
+            acumulador = 2*acumulador;
+        end
+        acumuladormetodo = acumuladormetodo  + acumulador;
+        fprintf('acumuluador  %f , acumuladormetodo %f\n',acumulador, acumuladormetodo);
+        acumulador = 0;
+        contador = contador + 1;
     end
-    fxn(contador) = acumulador; 
-    contador = contador + 1;
-    xn = xn + h;
-end
-acumulador = 0;
-for i = 1:length(fxn);
-    if i == 1;
-        acumulador = acumulador + fxn(i);
-    elseif i == length(fxn);
-        acumulador = acumulador + fxn(i);
+    disp(acumuladormetodo);
+    f1xdx = acumuladormetodo * h/2;
+    if f1xdx < 0;
+        anegativa = anegativa + f1xdx;
     else
-        acumulador = acumulador + 2*fxn(i);
+        apositiva = apositiva + f1xdx;
     end
 end
-%Codigo Regla del Trapecio
-f1xdx = acumulador * h/2;
-fprintf('La integral calculada fue: %f \n',f1xdx);
+fprintf('La integral por método de Trapecio Positiva es: %f\n',apositiva);
+fprintf('La integral por método de Trapecio Negativa es: %f\n',anegativa);
+fprintf('La integral calculada fue: %f \n',anegativa + apositiva);
 %Codigo de Regla de Simpson
-disp('Metodo de Simpson');
+disp('Metodo de Simpson');        disp(acumulador);
 acumulador = 0;
 for i = 1:length(fxn);
     if i == 1;
