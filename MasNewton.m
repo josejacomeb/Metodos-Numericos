@@ -1,3 +1,7 @@
+%Integrantes
+%Guevara Daniel
+%Jacome Jose
+%Semanate Clinton
 %Raices de Polinomio mas metodo de Newton
 clc;
 clear;
@@ -341,4 +345,4 @@ ingresaiteraciones = input('Ingrese el Numero de iteraciones a realizar: ');
         fprintf('Raiz Mediante el Metodo de %s encontrada en x  = %f \n',metodo,raices(i));
     end
 end 
-dip('Examen del martes en 8: ');
+disp('Examen del martes en 8: ');
