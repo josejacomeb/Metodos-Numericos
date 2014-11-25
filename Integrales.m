@@ -152,6 +152,17 @@ fprintf('Numero de Raices encontradas en el intervalo [%.2f,%.2f] = %d\n',ini,fi
 stringintegral = strcat('int(',stringpoli,')[',num2str(fin),' , ',num2str(ini),']dx' ,' = ');
 auxraiz = 0;
 intervalo = [];
+for i=1:length(raices);
+    auxraiz = raices(i);
+    for j=1:length(raices); 
+        if auxraiz <= raices(j);
+            auxraiz = raices(i);
+            raices(i) = raices(j);
+            raices(j)= auxraiz;
+        end
+    end
+end
+auxraiz = 0;
  if length(raices) == 1;
         intervalo = [ini,raices(1),fin];
         stringintegral = strcat(stringintegral,' Integral [',num2str(ini),',',num2str(raices(1)),']dx',' + ',' Integral [',num2str(raices(1)),',',num2str(fin),']dx');
@@ -164,8 +175,6 @@ intervalo = [];
         if i == 0;
             stringintegral = strcat(stringintegral,' Integral [',num2str(ini),',',num2str(raices(i+1)),']dx',' + ');
             intervalo(contintervalo) = ini;
-            contintervalo = contintervalo + 1;
-            intervalo(contintervalo) = raices(i+1);
             contintervalo = contintervalo + 1;
             auxraiz = raices(i+1);
         elseif i == length(raices);
@@ -220,15 +229,17 @@ for i = 2:length(intervalo);
         contador = contador + 1;
     end
     f1xdx = acumuladormetodo * h/2;
+    fprintf('Area parcial calculada por el Metodo del Trapecio: %f\n',f1xdx);
     if f1xdx < 0;
         anegativa = anegativa + f1xdx;
     else
         apositiva = apositiva + f1xdx;
     end
 end
+fprintf('Numero de Divisiones para el Metodo del Trapecio: %d\n',ndivisiones);
 fprintf('La integral por método de Trapecio Positiva es: %f\n',apositiva);
 fprintf('La integral por método de Trapecio Negativa es: %f\n',anegativa);
-fprintf('La integral calculada por el Método del Trapecio fue: %f \n',anegativa + apositiva);
+fprintf('La integral calculada por el Método del Trapecio fue: %f \n',abs(anegativa) + abs(apositiva));
 %Codigo de Regla de Simpson
 disp('%%%Metodo de Simpson%%%');
 while mod(ndivisiones,2) ~= 0 | ndivisiones < 0;
@@ -264,14 +275,14 @@ for i = 2:length(intervalo);
         contador = contador + 1;
     end
     f2xdx = acumuladormetodo * h/3;
+    fprintf('Area parcial calculada por el Metedo de Simpson: %f\n',f2xdx);
     if f2xdx < 0;
         anegativa = anegativa + f2xdx;
     else
         apositiva = apositiva + f2xdx;
     end
 end
+fprintf('Numero de Divisiones para el Metodo de Simpson: %d\n',ndivisiones);
 fprintf('La integral por método de Simpson Positiva es: %f\n',apositiva);
 fprintf('La integral por método de Simpson Negativa es: %f\n',anegativa);
-fprintf('La integral calculada por el Método del Simpson fue: %f \n',anegativa + apositiva);
-
-
+fprintf('La integral calculada por el Método del Simpson fue: %f \n',abs(anegativa) + abs(apositiva));
