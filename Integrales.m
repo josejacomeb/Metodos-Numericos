@@ -1,7 +1,11 @@
-%Raices de Polinomio mas metodo de Newton
+%Programa de Calculo de Integrales Numericas: Regla de Simpson y del
+%Trapecio
 clc;
 %%%AUTOR: JOSÉ JÁCOME%%%
 disp('<~~~Integración Por Regla Trapecio y Simpson~~~>');
+disp('-Instrucciones');
+disp('*-*Ingrese un Polinomio de grado positivo');
+disp('*-*Ingrese un intervalo de Integracion y sus divisiones');
 %Pide el grado del polinomio
 grado=input('Ingrese el grado del polinomio: ');
 %Variables donde se alojan los coeficientes del Polinomio
@@ -9,7 +13,7 @@ polinomio = [];
 polinomioderivado = []; 
 while(1);
     if grado < 0;
-        grado = input('El grado de polinomio no puede ser negativo o cero, ingrese de nuevo: ');
+        grado = input('El grado de polinomio no puede ser negativo, ingrese de nuevo: ');
     else
         break;
     end
@@ -52,9 +56,9 @@ while (1),
     ini=input('Introduzca el limite inferior:  ');
     fin=input('Introduzca el limite superior:  ');
     %Comprobamos que ini>=fin
-    if ini>fin
-       disp('El valor inicial no puede ser mayor que el valor final.')
-    elseif ini<=fin,
+    if ini>=fin
+       disp('El valor inicial no puede ser mayor que el valor final')
+    elseif ini<fin,
        break;
     end;
 end;
@@ -107,7 +111,7 @@ while numeroraices < grado;
             x0 = coorx(i-1);
             x1 = 1 ;
             Fx0 = 1;
-            while abs(Fx0) > 0.00000001;
+            while abs(Fx0) > 0.00000001; %Error Maximo
                 f0 = 0;
                 fp0 = 0;
                 Fx0 = 0;
@@ -184,8 +188,8 @@ disp('$$$INTERVALO DE INTEGRACION$$$');
 disp(stringintegral);
 %Inicio de los metodos
 ndivisiones = input('Ingrese el numero de divisiones a efectuar la funcion: ');
-while mod(ndivisiones,2) > 0;
-    ndivisiones = input(';Ingrese un numero de divisiones para continuar: ');
+while ndivisiones < 0;
+    ndivisiones = input(';Ingrese un numero de divisiones positivo para continuar: ');
 end
 %Metodo del trapecio
 disp('###Metodo del Trapecio###');
@@ -227,6 +231,9 @@ fprintf('La integral por método de Trapecio Negativa es: %f\n',anegativa);
 fprintf('La integral calculada por el Método del Trapecio fue: %f \n',anegativa + apositiva);
 %Codigo de Regla de Simpson
 disp('%%%Metodo de Simpson%%%');
+while mod(ndivisiones,2) ~= 0 | ndivisiones < 0;
+    ndivisiones = input('Ingrese un numero de divisiones par y mayor a cero: ');
+end
 %variable area negativa
 anegativa = 0;
 %variable area positiva 
