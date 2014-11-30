@@ -207,7 +207,7 @@ while numeroraices < grado;
             %Contador de iguales para no usar lo mismo
             contiguales = 0;
             for i = 1:numeroraices;
-                if abs(b - raices(i)) < 0.0000001;
+                if abs(b - raices(i)) < 0.001; %para evitar errores de Decimales
                     contiguales = contiguales + 1;
                 end
             end
