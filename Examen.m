@@ -95,6 +95,8 @@ for i = 1:grado;
         else
             stringpoli = strcat(stringpoli,num2str(polinomiocoef(i)),'*','(',stringfunciont,')','^',num2str(polinomiogrado(i)));
         end
+    elseif
+      stringpoli = str(stringpoli);
     else
         if polinomiogrado(i)==0;
             stringpoli = strcat(stringpoli,'+',num2str(polinomiocoef(i)));
@@ -103,7 +105,7 @@ for i = 1:grado;
         end
     end
 end
-disp('###POLINOMIO INGRESADO###');
+disp('###POLINOMIO  INGRESADO###');
 disp(stringpoli);
 %Codigo para buscar raices
 disp('@@@BUSQUEDA DE RAICES@@@');
