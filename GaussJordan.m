@@ -23,7 +23,6 @@ for i = 1:ecuaciones;
     end 
 end
 %Matriz Inversa
-matrizinversa = [];
 for i = 1: ecuaciones
     for j = ecuaciones + 2:2*ecuaciones + 1
         if i == j-(ecuaciones + 1)
@@ -38,6 +37,8 @@ disp('$$$MATRIZ INGRESADA$$$');
 disp('-----------------------------------------------------------');
 disp(matrizecuaciones);
 contador  = 0;
+disp('$$$Calculando el Triangulo Inferior');
+%Triangulo Inferior
 for i = 1 : ecuaciones - 1
     for k = i+1 : ecuaciones
         for j  = 2*ecuaciones + 1 : -1 : 1
@@ -57,17 +58,21 @@ for i = 1 : ecuaciones - 1
         disp(matrizecuaciones);
     end
 end
-%Hacer unos ls primeras filas
-for i = 1: ecuaciones
-    for j = 1 : 2*ecuaciones + 1
-        matrizecuaciones(i,j) = matrizecuaciones(i,j)/matrizecuaciones(i,i);
+disp('$$$Desarrollando la Matriz Identidad');
+%Hacer unos las primeras filas
+for i = ecuaciones:-1:1 
+    for j =  2*ecuaciones + 1: i
+        disp(matrizecuaciones(i,i))
+        fprintf('%f i j %f i i',matrizecuaciones(i,j),matrizecuaciones(i,i));
+        matrizecuaciones(i,j) = matrizecuaciones(i,j)/matrizecuaciones(i,j);
     end
-    disp(matrizecuaciones);
 end
+disp(matrizecuaciones);
+disp('$$$Calculando el triangulo Superior$$$');
 %Triangulo Superior
 disp('Triangulo Superior');
-for i = ecuaciones: -1 : 2
-     for k = ecuaciones:1 
+for i = ecuaciones:-1:2
+     for k = i-1:-1:1 
         for j  = 2*ecuaciones + 1: -1 : i        
             matrizecuaciones(k,j)  = matrizecuaciones(i,i)*matrizecuaciones(k,j) - matrizecuaciones(k,i)*matrizecuaciones(i,j);
         end
