@@ -39,12 +39,14 @@ while x1 < xf
      k3 = double(f(x1 + h/2,yf + (k2*h)/2));
      k4 = double(f(x1 + h,yf + (k3*h)));
      yf = yf + (k1+2*k2+2*k3+k4)*h/6;
+     fprintf('Valor k1 = %f, k2 = %f, k3 = %f , k4 = %f\n', k1,k2,k3,k4);
      fprintf('Valor Parcial para y(%f)≈%f\n %d proceso\n',x1,yf,i);
      x1 = x1 + h;
      if abs(x1 - xf) < h
          x1 = xf;
      end
      i = i + 1;	     
+     disp('__________________________________________');
 end
 disp('__________________________________________');
 disp('Solución Runge-Kutta de 4to Orden');
